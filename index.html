@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>Happy Birthday CISTAR ANEAH! 👑🎉</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@500;700&family=Poppins:wght@400;600;800&display=swap');
@@ -14,7 +14,7 @@
       --cyan: #00f5d4;
       --bg-dark: #0f051d;
       --glass: rgba(255, 255, 255, 0.1);
-      --glass-border: rgba(255, 255, 255, 0.22);
+      --glass-border: rgba(255, 255, 255, 0.24);
     }
 
     * {
@@ -32,6 +32,18 @@
       overflow-x: hidden;
       min-height: 100vh;
       position: relative;
+    }
+
+    /* Hidden Checkbox Fallback so Unlock ALWAYS works even without JS */
+    #unlockToggle {
+      display: none;
+    }
+
+    #unlockToggle:checked ~ #introOverlay {
+      opacity: 0 !important;
+      transform: scale(1.15) !important;
+      pointer-events: none !important;
+      visibility: hidden !important;
     }
 
     /* Fullscreen Particle Canvas */
@@ -58,18 +70,18 @@
       position: absolute;
       bottom: -60px;
       font-size: 2rem;
-      opacity: 0.22;
+      opacity: 0.25;
       animation: floatUp linear infinite;
     }
 
     @keyframes floatUp {
       0% { transform: translateY(0) rotate(0deg) scale(0.8); opacity: 0; }
-      15% { opacity: 0.25; }
-      85% { opacity: 0.25; }
+      15% { opacity: 0.28; }
+      85% { opacity: 0.28; }
       100% { transform: translateY(-115vh) rotate(360deg) scale(1.2); opacity: 0; }
     }
 
-    /* Intro Lock Screen */
+    /* Intro Lock Screen (Label for instant CSS + JS unlock) */
     #introOverlay {
       position: fixed;
       inset: 0;
@@ -81,25 +93,21 @@
       justify-content: center;
       text-align: center;
       padding: 20px;
-      transition: opacity 0.8s ease, transform 0.8s ease;
+      cursor: pointer;
+      transition: opacity 0.6s ease, transform 0.6s ease, visibility 0.6s;
     }
 
     #introOverlay.hidden {
-      opacity: 0;
-      transform: scale(1.15);
-      pointer-events: none;
+      opacity: 0 !important;
+      transform: scale(1.15) !important;
+      pointer-events: none !important;
+      visibility: hidden !important;
     }
 
     .gift-box-btn {
       font-size: 7rem;
-      cursor: pointer;
       animation: bounceGift 1.4s infinite ease-in-out;
       filter: drop-shadow(0 0 35px rgba(255, 42, 133, 0.8));
-      transition: transform 0.2s;
-    }
-
-    .gift-box-btn:hover {
-      transform: scale(1.15) rotate(8deg);
     }
 
     @keyframes bounceGift {
@@ -119,25 +127,27 @@
     .intro-sub {
       color: #e0aaff;
       margin-top: 10px;
-      font-size: 1.1rem;
-      max-width: 420px;
+      font-size: 1.05rem;
+      max-width: 440px;
     }
 
     .pulse-badge {
-      margin-top: 25px;
-      padding: 12px 28px;
+      margin-top: 28px;
+      padding: 16px 34px;
       border-radius: 50px;
       background: linear-gradient(135deg, #ff2a85, #7b2cbf);
-      font-weight: 700;
+      font-weight: 800;
+      font-size: 1.1rem;
       letter-spacing: 1px;
-      box-shadow: 0 0 25px rgba(255, 42, 133, 0.7);
-      cursor: pointer;
-      animation: pulseBtn 1.5s infinite;
+      color: #fff;
+      border: 2px solid #ffd166;
+      box-shadow: 0 0 25px rgba(255, 42, 133, 0.8);
+      animation: pulseBtn 1.4s infinite;
     }
 
     @keyframes pulseBtn {
       0%, 100% { box-shadow: 0 0 15px rgba(255, 42, 133, 0.6); transform: scale(1); }
-      50% { box-shadow: 0 0 35px rgba(0, 245, 212, 0.9); transform: scale(1.06); }
+      50% { box-shadow: 0 0 35px rgba(0, 245, 212, 0.9); transform: scale(1.07); }
     }
 
     /* Floating Top Controls */
@@ -151,11 +161,12 @@
       align-items: center;
       z-index: 1000;
       pointer-events: none;
+      gap: 10px;
     }
 
     .control-btn {
       pointer-events: auto;
-      background: rgba(20, 8, 40, 0.75);
+      background: rgba(20, 8, 40, 0.85);
       backdrop-filter: blur(12px);
       border: 2px solid var(--glass-border);
       color: #fff;
@@ -163,24 +174,19 @@
       border-radius: 50px;
       font-family: 'Poppins', sans-serif;
       font-weight: 700;
-      font-size: 0.9rem;
+      font-size: 0.88rem;
       cursor: pointer;
       box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
       transition: all 0.2s ease;
-      display: flex;
-      align-items: center;
-      gap: 8px;
     }
 
-    .control-btn:hover {
-      transform: translateY(-3px) scale(1.05);
-      border-color: var(--cyan);
-      box-shadow: 0 0 20px rgba(0, 245, 212, 0.5);
+    .control-btn:active {
+      transform: scale(0.92);
     }
 
     .control-btn.mega-blast {
       background: linear-gradient(135deg, #ff2a85, #ff7b00);
-      border: none;
+      border-color: #ffd166;
     }
 
     /* Main Container */
@@ -189,23 +195,22 @@
       z-index: 10;
       max-width: 1050px;
       margin: 0 auto;
-      padding: 90px 20px 80px;
+      padding: 85px 18px 80px;
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 60px;
+      gap: 50px;
     }
 
     /* Hero Banner */
     .hero {
       text-align: center;
-      position: relative;
-      padding: 30px 15px;
+      padding: 20px 10px;
     }
 
     .crown-badge {
       display: inline-block;
-      font-size: 4rem;
+      font-size: 4.2rem;
       animation: crownTilt 2s infinite alternate ease-in-out;
       filter: drop-shadow(0 0 20px #ffd166);
     }
@@ -217,7 +222,7 @@
 
     .hero h1 {
       font-family: 'Fredoka', sans-serif;
-      font-size: clamp(2.6rem, 8vw, 5.2rem);
+      font-size: clamp(2.5rem, 8vw, 5rem);
       line-height: 1.08;
       margin: 10px 0;
       background: linear-gradient(90deg, #ff2a85, #ffd166, #00f5d4, #ff2a85);
@@ -225,7 +230,6 @@
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       animation: gradientFlow 5s infinite linear;
-      text-shadow: 0 10px 30px rgba(255, 42, 133, 0.25);
     }
 
     @keyframes gradientFlow {
@@ -234,7 +238,7 @@
     }
 
     .hero-subtitle {
-      font-size: clamp(1.05rem, 3vw, 1.4rem);
+      font-size: clamp(1rem, 3vw, 1.35rem);
       color: #f3d5ff;
       max-width: 680px;
       margin: 12px auto 25px;
@@ -254,22 +258,18 @@
       border: 1.5px solid var(--glass-border);
       backdrop-filter: blur(10px);
       color: #fff;
-      padding: 12px 22px;
+      padding: 12px 20px;
       border-radius: 50px;
-      font-size: 1rem;
+      font-size: 0.95rem;
       font-weight: 700;
       cursor: pointer;
       transition: all 0.2s;
     }
 
-    .emoji-cannon-btn:hover {
-      background: rgba(255, 42, 133, 0.35);
+    .emoji-cannon-btn:hover, .emoji-cannon-btn:active {
+      background: rgba(255, 42, 133, 0.45);
       border-color: var(--accent);
-      transform: translateY(-4px) scale(1.05);
-    }
-
-    .emoji-cannon-btn:active {
-      transform: scale(0.94);
+      transform: scale(1.05);
     }
 
     /* Glass Section Card */
@@ -279,22 +279,22 @@
       border: 1.5px solid var(--glass-border);
       backdrop-filter: blur(16px);
       border-radius: 28px;
-      padding: 40px 25px;
+      padding: 35px 22px;
       text-align: center;
       box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
     }
 
     .section-title {
       font-family: 'Fredoka', sans-serif;
-      font-size: clamp(1.8rem, 4.5vw, 2.6rem);
-      margin-bottom: 10px;
+      font-size: clamp(1.7rem, 4.5vw, 2.5rem);
+      margin-bottom: 8px;
       color: var(--accent);
     }
 
     .section-desc {
       color: #d8b4f8;
-      margin-bottom: 30px;
-      font-size: 1rem;
+      margin-bottom: 28px;
+      font-size: 0.98rem;
     }
 
     /* Interactive Birthday Cake */
@@ -303,7 +303,7 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      padding: 30px 10px 10px;
+      padding: 25px 10px 10px;
     }
 
     .cake-wrapper {
@@ -316,30 +316,19 @@
 
     .candles-row {
       display: flex;
-      gap: 24px;
+      gap: 22px;
       margin-bottom: -6px;
       z-index: 4;
     }
 
     .candle {
-      width: 16px;
-      height: 52px;
-      background: repeating-linear-gradient(
-        45deg,
-        #fff,
-        #fff 6px,
-        #ff2a85 6px,
-        #ff2a85 12px
-      );
+      width: 18px;
+      height: 54px;
+      background: repeating-linear-gradient(45deg, #fff, #fff 6px, #ff2a85 6px, #ff2a85 12px);
       border-radius: 4px;
       position: relative;
       cursor: pointer;
       box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-      transition: transform 0.2s;
-    }
-
-    .candle:hover {
-      transform: scale(1.1);
     }
 
     .flame {
@@ -353,13 +342,12 @@
       border-radius: 50% 50% 35% 35%;
       box-shadow: 0 0 18px #ffd166, 0 0 35px #ff2a85;
       animation: flicker 0.4s infinite alternate;
-      transition: opacity 0.3s, transform 0.3s;
+      transition: opacity 0.25s, transform 0.25s;
     }
 
     .candle.blown .flame {
       opacity: 0;
       transform: translateX(-50%) scale(0);
-      pointer-events: none;
     }
 
     @keyframes flicker {
@@ -372,7 +360,6 @@
       height: 65px;
       background: linear-gradient(180deg, #ff70a6, #ff2a85);
       border-radius: 14px 14px 0 0;
-      position: relative;
       box-shadow: inset 0 8px 0 #ffd166;
       z-index: 3;
     }
@@ -382,7 +369,6 @@
       height: 85px;
       background: linear-gradient(180deg, #9d4edd, #5a189a);
       border-radius: 16px 16px 8px 8px;
-      position: relative;
       box-shadow: inset 0 10px 0 #00f5d4;
       z-index: 2;
       display: flex;
@@ -392,7 +378,6 @@
       font-size: 1.3rem;
       letter-spacing: 2px;
       color: #ffd166;
-      text-shadow: 0 2px 8px rgba(0,0,0,0.4);
     }
 
     .cake-plate {
@@ -406,20 +391,14 @@
     .wish-banner {
       margin-top: 25px;
       padding: 18px 25px;
-      background: linear-gradient(135deg, rgba(255, 42, 133, 0.25), rgba(0, 245, 212, 0.25));
+      background: linear-gradient(135deg, rgba(255, 42, 133, 0.3), rgba(0, 245, 212, 0.25));
       border: 2px dashed var(--accent);
       border-radius: 18px;
       display: none;
-      animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     }
 
     .wish-banner.show {
       display: block;
-    }
-
-    @keyframes popIn {
-      0% { transform: scale(0.5); opacity: 0; }
-      100% { transform: scale(1); opacity: 1; }
     }
 
     /* Flip Cards Grid */
@@ -432,7 +411,7 @@
 
     .flip-card {
       background: transparent;
-      height: 240px;
+      height: 235px;
       perspective: 1000px;
       cursor: pointer;
     }
@@ -442,11 +421,12 @@
       width: 100%;
       height: 100%;
       text-align: center;
-      transition: transform 0.65s cubic-bezier(0.4, 0.2, 0.2, 1);
+      transition: transform 0.6s cubic-bezier(0.4, 0.2, 0.2, 1);
       transform-style: preserve-3d;
     }
 
-    .flip-card.flipped .flip-inner {
+    .flip-card.flipped .flip-inner,
+    .flip-card:hover .flip-inner {
       transform: rotateY(180deg);
     }
 
@@ -455,7 +435,7 @@
       inset: 0;
       backface-visibility: hidden;
       border-radius: 22px;
-      padding: 24px 18px;
+      padding: 22px 16px;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -464,23 +444,22 @@
     }
 
     .flip-front {
-      background: linear-gradient(145deg, rgba(255, 42, 133, 0.2), rgba(123, 44, 191, 0.35));
+      background: linear-gradient(145deg, rgba(255, 42, 133, 0.22), rgba(123, 44, 191, 0.38));
     }
 
     .flip-front .card-emoji {
-      font-size: 3.5rem;
-      margin-bottom: 12px;
+      font-size: 3.4rem;
+      margin-bottom: 10px;
     }
 
     .flip-front h3 {
       font-family: 'Fredoka', sans-serif;
       font-size: 1.25rem;
-      color: #fff;
     }
 
     .flip-front span {
       margin-top: 10px;
-      font-size: 0.8rem;
+      font-size: 0.78rem;
       color: var(--cyan);
       text-transform: uppercase;
       letter-spacing: 1px;
@@ -490,11 +469,10 @@
       background: linear-gradient(145deg, #ff2a85, #7b2cbf);
       transform: rotateY(180deg);
       color: #fff;
-      box-shadow: 0 0 25px rgba(255, 42, 133, 0.5);
     }
 
     .flip-back p {
-      font-size: 0.98rem;
+      font-size: 0.96rem;
       line-height: 1.5;
       font-weight: 600;
     }
@@ -503,14 +481,14 @@
     .generator-box {
       background: rgba(0, 0, 0, 0.35);
       border-radius: 20px;
-      padding: 28px 20px;
+      padding: 25px 18px;
       margin: 20px auto;
       max-width: 650px;
-      min-height: 120px;
+      min-height: 115px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: clamp(1.15rem, 3vw, 1.5rem);
+      font-size: clamp(1.1rem, 3vw, 1.45rem);
       font-weight: 700;
       color: var(--cyan);
       border: 1px solid rgba(0, 245, 212, 0.3);
@@ -527,8 +505,8 @@
     }
 
     .balloon {
-      width: 95px;
-      height: 115px;
+      width: 90px;
+      height: 110px;
       border-radius: 50% 50% 50% 50% / 40% 40% 60% 60%;
       display: flex;
       align-items: center;
@@ -538,20 +516,15 @@
       position: relative;
       box-shadow: inset -10px -10px 20px rgba(0,0,0,0.25), 0 10px 25px rgba(0,0,0,0.3);
       animation: sway 2.5s infinite alternate ease-in-out;
-      transition: transform 0.15s;
     }
 
     .balloon::after {
       content: '';
       position: absolute;
-      bottom: -24px;
+      bottom: -22px;
       width: 2px;
-      height: 24px;
+      height: 22px;
       background: rgba(255,255,255,0.5);
-    }
-
-    .balloon:hover {
-      transform: scale(1.12);
     }
 
     .balloon.popped {
@@ -559,12 +532,11 @@
       height: auto;
       border-radius: 14px;
       padding: 12px 16px;
-      background: rgba(255, 255, 255, 0.14) !important;
-      border: 1px solid var(--accent);
+      background: rgba(255, 255, 255, 0.16) !important;
+      border: 1.5px solid var(--accent);
       font-size: 0.9rem;
       font-weight: 700;
       color: var(--accent);
-      animation: popIn 0.35s ease forwards;
       box-shadow: none;
     }
 
@@ -574,18 +546,18 @@
 
     @keyframes sway {
       0% { transform: translateY(0) rotate(-4deg); }
-      100% { transform: translateY(-12px) rotate(4deg); }
+      100% { transform: translateY(-10px) rotate(4deg); }
     }
 
     /* Letter Section */
     .letter-box {
       text-align: left;
       background: linear-gradient(135deg, rgba(255, 255, 255, 0.08), rgba(255, 42, 133, 0.08));
-      padding: 32px;
+      padding: 28px;
       border-radius: 22px;
       border-left: 5px solid var(--primary);
       line-height: 1.8;
-      font-size: 1.05rem;
+      font-size: 1.02rem;
       color: #f8e8ff;
     }
 
@@ -595,7 +567,7 @@
 
     footer {
       text-align: center;
-      padding: 30px 15px 50px;
+      padding: 25px 15px 50px;
       color: #b79ced;
       font-size: 0.95rem;
     }
@@ -603,24 +575,27 @@
 </head>
 <body>
 
+  <!-- CSS-Only Backup Unlock Checkbox -->
+  <input type="checkbox" id="unlockToggle" onchange="unlockSurprise()" />
+
   <!-- Fullscreen Emoji Physics Canvas -->
   <canvas id="emojiCanvas"></canvas>
 
   <!-- Ambient Floating Emojis -->
   <div class="bg-floaters" id="bgFloaters"></div>
 
-  <!-- Lock Screen Surprise Overlay -->
-  <div id="introOverlay">
-    <div class="gift-box-btn" id="openGiftBtn" title="Tap to Open!">🎁</div>
+  <!-- Lock Screen Surprise Overlay (Now a Label + JS handler so tapping ANYWHERE unlocks 100%) -->
+  <label for="unlockToggle" id="introOverlay" onclick="unlockSurprise()">
+    <div class="gift-box-btn">🎁</div>
     <h1 class="intro-title">Special Delivery for CISTAR ANEAH! 👑</h1>
-    <p class="intro-sub">Warning: Opening this box will unleash 10,000% birthday chaos, extreme emoji blasts, and VIP Cistar energy!</p>
-    <div class="pulse-badge" id="openBadgeBtn">TAP TO UNLOCK THE MAGIC ✨</div>
-  </div>
+    <p class="intro-sub">Warning: Tapping anywhere will unleash 10,000% birthday chaos, extreme emoji blasts & VIP Cistar energy!</p>
+    <div class="pulse-badge">TAP ANYWHERE TO UNLOCK ✨</div>
+  </label>
 
   <!-- Floating Top Controls -->
   <div class="top-bar">
-    <button class="control-btn" id="musicToggleBtn">🔊 Music: ON</button>
-    <button class="control-btn mega-blast" id="megaBlastBtn">💥 MEGA EMOJI BLAST!</button>
+    <button class="control-btn" id="musicToggleBtn" onclick="toggleMusic()">🔊 Music: ON</button>
+    <button class="control-btn mega-blast" onclick="megaScreenBlast()">💥 MEGA EMOJI BLAST!</button>
   </div>
 
   <main>
@@ -647,7 +622,7 @@
       <p class="section-desc">Tap each glowing candle on the cake (or tap the cake itself) to make your birthday wish!</p>
 
       <div class="cake-stage">
-        <div class="cake-wrapper" id="cakeWrapper">
+        <div class="cake-wrapper" onclick="blowAllCandles(event)">
           <div class="candles-row">
             <div class="candle" onclick="blowCandle(this, event)"><div class="flame"></div></div>
             <div class="candle" onclick="blowCandle(this, event)"><div class="flame"></div></div>
@@ -720,4 +695,374 @@
               <h3>Unstoppable Queen</h3>
               <span>Tap to Flip 🔄</span>
             </div>
-     
+            <div class="flip-back">
+              <p>This new chapter is yours to conquer! Big goals, bigger smiles, and unlimited success coming your way! 🏆🦋</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Pop the Balloons Gift Hunt -->
+    <section class="section-card">
+      <h2 class="section-title">🎈 Pop the Balloons for Secret Vouchers!</h2>
+      <p class="section-desc">Tap all 5 balloons to pop them and claim your official Cistar Birthday Perks!</p>
+
+      <div class="balloon-zone">
+        <div class="balloon" style="background: radial-gradient(circle at 30% 30%, #ff70a6, #ff2a85);" onclick="popBalloon(this, '🍫 1x Free Chocolate Stash!', event)">🎈</div>
+        <div class="balloon" style="background: radial-gradient(circle at 30% 30%, #ffd166, #ff7b00);" onclick="popBalloon(this, '👑 Win Any Sibling Argument Pass!', event)">🎈</div>
+        <div class="balloon" style="background: radial-gradient(circle at 30% 30%, #00f5d4, #00bbf9);" onclick="popBalloon(this, '🍕 1x VIP Food Treat On Demand!', event)">🎈</div>
+        <div class="balloon" style="background: radial-gradient(circle at 30% 30%, #c77dff, #7b2cbf);" onclick="popBalloon(this, '🛑 Zero Chores For 24 Hours Pass!', event)">🎈</div>
+        <div class="balloon" style="background: radial-gradient(circle at 30% 30%, #ff9ebb, #ff0055);" onclick="popBalloon(this, '🤗 Unlimited Sibling Hype & Support!', event)">🎈</div>
+      </div>
+    </section>
+
+    <!-- Official Cistar Hype Machine -->
+    <section class="section-card">
+      <h2 class="section-title">🎰 The CISTAR ANEAH Hype Machine</h2>
+      <p class="section-desc">Smash the button below to generate official Birthday Awards & Facts!</p>
+
+      <div class="generator-box" id="hypeDisplay">
+        👑 OFFICIAL AWARD: World's #1 Most Iconic CISTAR goes to ANEAH!
+      </div>
+
+      <button class="control-btn mega-blast" style="margin: 0 auto; font-size: 1rem; padding: 14px 28px;" onclick="generateHype(event)">
+        🎲 SPIN HYPE & BLAST EMOJIS!
+      </button>
+    </section>
+
+    <!-- Special Birthday Note -->
+    <section class="section-card">
+      <h2 class="section-title">💌 A Note For My Cistar Aneah</h2>
+      <div class="letter-box">
+        <p>Dear <strong>CISTAR ANEAH</strong>,</p>
+        <br>
+        <p>
+          Happy, Happy Birthday! 🎉 Having you as my sister means life is never dull—it's 50% comedy show, 50% chaos, and 100% the best memories ever. Whether we're laughing over random nonsense or backing each other up no matter what, you make everything brighter.
+        </p>
+        <br>
+        <p>
+          May this year bring you nonstop happiness, crazy adventures, all your favorite treats, and every dream you've been working toward. Keep shining, keep slaying, and never stop being the legendary <strong>CISTAR</strong> you are! 👑✨💖
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    Made with 1000% sibling love & unlimited emoji blasts for <strong>CISTAR ANEAH</strong> 🎂🥳✨
+  </footer>
+
+  <script>
+    const ALL_EMOJIS = ['🎉','🥳','🎂','👑','💖','✨','🦋','🍫','🍭','🎊','💃','🔥','🌟','🫶','🎈','🧁','💎','🌸','🚀'];
+    let isUnlocked = false;
+
+    /* ==========================================================
+       1. BULLETPROOF UNLOCK FUNCTION (RUNS FIRST)
+    ========================================================== */
+    function unlockSurprise() {
+      if (isUnlocked) return;
+      isUnlocked = true;
+
+      // 1. Immediately hide overlay before doing anything else
+      const overlay = document.getElementById('introOverlay');
+      if (overlay) {
+        overlay.classList.add('hidden');
+        setTimeout(() => { overlay.style.display = 'none'; }, 650);
+      }
+
+      // 2. Fire massive emoji blasts & start continuous emoji rain
+      try {
+        megaScreenBlast();
+        startContinuousEmojiRain();
+      } catch (err) {}
+
+      // 3. Safely start music inside try/catch so audio rules never block the page
+      try {
+        initAudio();
+        playBirthdayLoop();
+      } catch (err) {}
+    }
+
+    /* ==========================================================
+       2. EMOJI BLAST & PARTICLE PHYSICS ENGINE
+    ========================================================== */
+    const canvas = document.getElementById('emojiCanvas');
+    const ctx = canvas.getContext('2d');
+    let particles = [];
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    class EmojiParticle {
+      constructor(x, y, emojiList = ALL_EMOJIS, isMega = false, isRain = false) {
+        this.x = x;
+        this.y = y;
+        this.emoji = emojiList[Math.floor(Math.random() * emojiList.length)];
+        if (isRain) {
+          this.vx = (Math.random() - 0.5) * 2;
+          this.vy = Math.random() * 3 + 2;
+          this.gravity = 0.04;
+          this.drag = 0.995;
+          this.decay = 0.003;
+        } else {
+          const angle = Math.random() * Math.PI * 2;
+          const speed = isMega ? (Math.random() * 18 + 6) : (Math.random() * 12 + 3);
+          this.vx = Math.cos(angle) * speed;
+          this.vy = Math.sin(angle) * speed - (isMega ? 6 : 3);
+          this.gravity = 0.28;
+          this.drag = 0.985;
+          this.decay = Math.random() * 0.008 + 0.006;
+        }
+        this.size = Math.random() * 22 + 20;
+        this.rotation = Math.random() * Math.PI * 2;
+        this.vRot = (Math.random() - 0.5) * 0.16;
+        this.alpha = 1;
+      }
+
+      update() {
+        this.vx *= this.drag;
+        this.vy *= this.drag;
+        this.vy += this.gravity;
+        this.x += this.vx;
+        this.y += this.vy;
+        this.rotation += this.vRot;
+        this.alpha -= this.decay;
+      }
+
+      draw(ctx) {
+        ctx.save();
+        ctx.globalAlpha = Math.max(0, this.alpha);
+        ctx.translate(this.x, this.y);
+        ctx.rotate(this.rotation);
+        ctx.font = `${this.size}px serif`;
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(this.emoji, 0, 0);
+        ctx.restore();
+      }
+    }
+
+    function spawnEmojiBurst(x, y, count = 35, customEmojis = ALL_EMOJIS, isMega = false) {
+      for (let i = 0; i < count; i++) {
+        particles.push(new EmojiParticle(x, y, customEmojis, isMega, false));
+      }
+    }
+
+    function startContinuousEmojiRain() {
+      setInterval(() => {
+        if (particles.length < 180) {
+          const rx = Math.random() * window.innerWidth;
+          particles.push(new EmojiParticle(rx, -30, ALL_EMOJIS, false, true));
+        }
+      }, 220);
+    }
+
+    function fireThemeBlast(emojiArray) {
+      playPopSound(520);
+      spawnEmojiBurst(window.innerWidth * 0.2, window.innerHeight * 0.6, 35, emojiArray, true);
+      spawnEmojiBurst(window.innerWidth * 0.5, window.innerHeight * 0.4, 45, emojiArray, true);
+      spawnEmojiBurst(window.innerWidth * 0.8, window.innerHeight * 0.6, 35, emojiArray, true);
+    }
+
+    function megaScreenBlast() {
+      playPopSound(660);
+      for (let i = 0; i < 5; i++) {
+        setTimeout(() => {
+          const rx = Math.random() * window.innerWidth;
+          const ry = Math.random() * (window.innerHeight * 0.7) + 60;
+          spawnEmojiBurst(rx, ry, 45, ALL_EMOJIS, true);
+        }, i * 120);
+      }
+    }
+
+    function animateParticles() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      for (let i = particles.length - 1; i >= 0; i--) {
+        const p = particles[i];
+        p.update();
+        p.draw(ctx);
+        if (p.alpha <= 0 || p.y > canvas.height + 80) {
+          particles.splice(i, 1);
+        }
+      }
+      requestAnimationFrame(animateParticles);
+    }
+    animateParticles();
+
+    // Tap anywhere on screen to blast emojis
+    window.addEventListener('pointerdown', (e) => {
+      if (!isUnlocked) return;
+      if (e.target.closest('button') || e.target.closest('.candle') || e.target.closest('.flip-card') || e.target.closest('.balloon')) return;
+      spawnEmojiBurst(e.clientX, e.clientY, 24);
+      playPopSound(440);
+    });
+
+    /* ==========================================================
+       3. AMBIENT FLOATING BACKGROUND EMOJIS
+    ========================================================== */
+    const bgFloaters = document.getElementById('bgFloaters');
+    for (let i = 0; i < 22; i++) {
+      const span = document.createElement('span');
+      span.className = 'floater';
+      span.textContent = ALL_EMOJIS[i % ALL_EMOJIS.length];
+      span.style.left = `${Math.random() * 95}vw`;
+      span.style.animationDuration = `${Math.random() * 9 + 8}s`;
+      span.style.animationDelay = `${Math.random() * 6}s`;
+      span.style.fontSize = `${Math.random() * 1.4 + 1.4}rem`;
+      bgFloaters.appendChild(span);
+    }
+
+    /* ==========================================================
+       4. SAFE WEB AUDIO SYNTHESIZER
+    ========================================================== */
+    let audioCtx = null;
+    let musicEnabled = true;
+    let melodyTimeout = null;
+
+    function initAudio() {
+      try {
+        const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+        if (AudioContextClass && !audioCtx) {
+          audioCtx = new AudioContextClass();
+        }
+        if (audioCtx && audioCtx.state === 'suspended') {
+          audioCtx.resume();
+        }
+      } catch (e) {}
+    }
+
+    function playPopSound(freq = 500) {
+      try {
+        if (!musicEnabled || !audioCtx) return;
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(freq * 1.8, audioCtx.currentTime + 0.12);
+        gain.gain.setValueAtTime(0.15, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.12);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start();
+        osc.stop(audioCtx.currentTime + 0.12);
+      } catch (e) {}
+    }
+
+    const MELODY = [
+      [261.6, 300], [261.6, 250], [293.7, 500], [261.6, 500], [349.2, 500], [329.6, 900],
+      [261.6, 300], [261.6, 250], [293.7, 500], [261.6, 500], [392.0, 500], [349.2, 900],
+      [261.6, 300], [261.6, 250], [523.3, 500], [440.0, 500], [349.2, 500], [329.6, 500], [293.7, 900],
+      [466.2, 300], [466.2, 250], [440.0, 500], [349.2, 500], [392.0, 500], [349.2, 1000]
+    ];
+
+    let noteIndex = 0;
+    function playBirthdayLoop() {
+      try {
+        if (!musicEnabled || !audioCtx) return;
+        const [freq, dur] = MELODY[noteIndex];
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+        gain.gain.setValueAtTime(0.11, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + (dur / 1000) * 0.9);
+
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+
+        osc.start();
+        osc.stop(audioCtx.currentTime + (dur / 1000));
+
+        noteIndex = (noteIndex + 1) % MELODY.length;
+        melodyTimeout = setTimeout(playBirthdayLoop, dur + 45);
+      } catch (e) {}
+    }
+
+    function toggleMusic() {
+      initAudio();
+      musicEnabled = !musicEnabled;
+      document.getElementById('musicToggleBtn').textContent = musicEnabled ? '🔊 Music: ON' : '🔇 Music: OFF';
+      clearTimeout(melodyTimeout);
+      if (musicEnabled) playBirthdayLoop();
+    }
+
+    /* ==========================================================
+       5. INTERACTIVE CAKE, CARDS, BALLOONS & HYPE
+    ========================================================== */
+    function blowCandle(candleEl, event) {
+      if (event) event.stopPropagation();
+      if (!candleEl.classList.contains('blown')) {
+        candleEl.classList.add('blown');
+        const rect = candleEl.getBoundingClientRect();
+        spawnEmojiBurst(rect.left + rect.width / 2, rect.top, 25, ['💨','✨','🎉','💖','🌟']);
+        playPopSound(620);
+        checkAllCandles();
+      }
+    }
+
+    function blowAllCandles(event) {
+      const unblown = document.querySelectorAll('.candle:not(.blown)');
+      if (unblown.length > 0) {
+        unblown.forEach(c => c.classList.add('blown'));
+        spawnEmojiBurst(event.clientX || window.innerWidth / 2, event.clientY || window.innerHeight / 2, 50, ['🎂','🎉','🥳','👑','💖','✨'], true);
+        checkAllCandles();
+      }
+    }
+
+    function checkAllCandles() {
+      const remaining = document.querySelectorAll('.candle:not(.blown)');
+      if (remaining.length === 0) {
+        document.getElementById('wishBanner').classList.add('show');
+        megaScreenBlast();
+      }
+    }
+
+    function relightCandles() {
+      document.querySelectorAll('.candle').forEach(c => c.classList.remove('blown'));
+      document.getElementById('wishBanner').classList.remove('show');
+      playPopSound(480);
+    }
+
+    function flipCard(cardEl, event) {
+      cardEl.classList.toggle('flipped');
+      spawnEmojiBurst(event.clientX || window.innerWidth / 2, event.clientY || window.innerHeight / 2, 28, ['👑','💖','✨','🥳','🔥']);
+      playPopSound(540);
+    }
+
+    function popBalloon(balloonEl, rewardText, event) {
+      if (balloonEl.classList.contains('popped')) return;
+      balloonEl.classList.add('popped');
+      balloonEl.textContent = rewardText;
+      spawnEmojiBurst(event.clientX || window.innerWidth / 2, event.clientY || window.innerHeight / 2, 40, ['🎈','🎁','🎊','🍫','👑','✨'], true);
+      playPopSound(750);
+    }
+
+    const HYPE_MESSAGES = [
+      "🧬 SCIENTIFIC FACT: Aneah is 99% Queen Energy and 1% Pure Drama! 💅✨",
+      "🍫 BREAKING NEWS: All calories are officially cancelled on Aneah's Birthday! 🎂",
+      "🏆 LIFETIME ACHIEVEMENT: Putting up with her sibling & still being the coolest bestie ever!",
+      "🚀 FORECAST FOR ANEAH: 1000% chance of big wins, non-stop laughs & main-character vibes!",
+      "💎 VIP STATUS UNLOCKED: Cistar Aneah gets Queen Treatment all week long! 🎉",
+      "👑 OFFICIAL AWARD: World's #1 Most Iconic CISTAR goes to ANEAH!"
+    ];
+    let hypeIdx = 0;
+
+    function generateHype(event) {
+      const box = document.getElementById('hypeDisplay');
+      box.style.transform = 'scale(0.92)';
+      setTimeout(() => {
+        box.textContent = HYPE_MESSAGES[hypeIdx];
+        box.style.transform = 'scale(1)';
+        hypeIdx = (hypeIdx + 1) % HYPE_MESSAGES.length;
+      }, 120);
+      spawnEmojiBurst(event.clientX || window.innerWidth / 2, event.clientY || window.innerHeight / 2, 45, ALL_EMOJIS, true);
+      playPopSound(600);
+    }
+  </script>
+</body>
+</html>
